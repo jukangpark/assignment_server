@@ -1,0 +1,14 @@
+{
+  "name": "assignment_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server-build": "cd server && npm ci --dev && npm run build",
+    "heroku-prebuild": "npm run server-build",
+    "start": "cd server && npm run start"
+  },
+  "author": "",
+  "license": "ISC"
+}
