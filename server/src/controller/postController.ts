@@ -11,5 +11,24 @@ export const postAll = async (req: Request, res: Response) => {
   const post = await posts.findOne();
   console.log(post);
 
-  return res.send([post]);
+  return res.json([post]);
+};
+
+export const createPost = async (req: Request, res: Response) => {
+  return res.status(201).json({ message: "게시물이 생성되었습니다." });
+};
+
+export const viewPost = async (req: Request, res: Response) => {
+  const { id, name } = req.params;
+  return res.json([{ id }]);
+};
+
+export const editPost = async (req: Request, res: Response) => {
+  const { id, name } = req.params;
+  return res.json([{ message: "게시물이 수정되었습니다." }]);
+};
+
+export const deletePost = async (req: Request, res: Response) => {
+  const { id, name } = req.params;
+  return res.json([{ message: "게시물이 삭제되었습니다." }]);
 };

@@ -1,6 +1,10 @@
 require("dotenv").config();
 const isHeroku = process.env.NODE_ENV === "production";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerOptions from "./swagger";
+
 import "./db";
 import express, { NextFunction, Request, Response } from "express";
 import userRouter from "./router/userRouter";
@@ -12,6 +16,15 @@ process.on("uncaughtException", (err) => {
 });
 
 const app = express();
+
+const specs = swaggerJsDoc(swaggerOptions);
+
+app.use(
+  "/swagger",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
