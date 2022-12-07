@@ -6,12 +6,14 @@ export const postAll = async (req: Request, res: Response) => {
   const {
     params: { name },
   } = req;
-  console.log(name);
-  const posts = await client.db(name).collection("posts");
-  const post = await posts.findOne();
-  console.log(post);
 
-  return res.json([post]);
+  // const db = await client.db(name);
+
+  // const posts = await client.db(name).collection("posts");
+
+  // console.log(posts);
+
+  return res.json(["1"]);
 };
 
 export const createPost = async (req: Request, res: Response) => {

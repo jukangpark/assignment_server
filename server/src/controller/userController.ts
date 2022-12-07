@@ -62,26 +62,6 @@ export const deleteProfile = async (req: Request, res: Response) => {
   });
 };
 
-/**
- * @swagger
- *  /product:
- *    get:
- *      tags:
- *        - /path/{path_parameter_name}
- *      description: 모든 제품 조회
- *      produces:
- *      - application/json
- *      parameters:
- *        - in: query
- *          name: category
- *          required: false
- *          schema:
- *            type: integer
- *            description: 카테고리
- *      responses:
- *       200:
- *        description: 제품 조회 성공
- */
 export const updateProfile = async (req: Request, res: Response) => {
   const { id, name } = req.params;
 
