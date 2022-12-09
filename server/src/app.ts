@@ -29,6 +29,10 @@ const PORT = process.env.PORT || 9000;
 app.use("/user", userRouter);
 app.use("/posts", postRouter);
 
+app.get("/test", (req, res) => {
+  return res.json({ message: "연결완료" });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is Listening on PORT:${PORT} `);
 });
