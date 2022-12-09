@@ -7,16 +7,51 @@ export const postAll = async (req: Request, res: Response) => {
     params: { name },
   } = req;
 
-  // const db = await client.db(name);
+  const result: any = [];
+  try {
+    const db = await client.db(name);
+    const posts = db.collection("posts");
 
-  // const posts = await client.db(name).collection("posts");
+    const query = {};
+    const cursor = posts.find(query);
 
-  // console.log(posts);
+    if ((await cursor.count()) === 0) {
+      console.log("No documents found!");
+    }
 
-  return res.json(["1"]);
+    await cursor.forEach((item: object) => {
+      result.push(item);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  return res.json(result);
 };
 
 export const createPost = async (req: Request, res: Response) => {
+  const {
+    params: { name },
+    body,
+  } = req;
+
+  console.log(req.body);
+  console.log(name);
+
+  try {
+    const db = client.db(name);
+    const posts = db.collection("posts");
+
+    const doc = {
+      title: "Record of a Shriveled Datum",
+      content: "No bytes, no problem. Just insert a document, in MongoDB",
+    };
+    const result = await posts.insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+  } catch (error) {
+    console.log(error);
+  }
+
   return res.status(201).json({ message: "게시물이 생성되었습니다." });
 };
 
