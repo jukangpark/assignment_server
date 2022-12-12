@@ -1,8 +1,10 @@
 require("dotenv").config();
 const isHeroku = process.env.NODE_ENV === "production";
+import cookieParser from "cookie-parser";
 
 import "./db";
 import express, { NextFunction, Request, Response } from "express";
+
 import userRouter from "./router/userRouter";
 import postRouter from "./router/postRouter";
 
@@ -12,6 +14,9 @@ process.on("uncaughtException", (err) => {
 });
 
 const app = express();
+const cors = require("cors");
+app.use(cookieParser());
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

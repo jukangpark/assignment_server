@@ -32,20 +32,19 @@ export const postAll = async (req: Request, res: Response) => {
 export const createPost = async (req: Request, res: Response) => {
   const {
     params: { name },
-    body,
+    body: { title, content, password },
   } = req;
-
-  console.log(req.body);
-  console.log(name);
 
   try {
     const db = client.db(name);
     const posts = db.collection("posts");
 
     const doc = {
-      title: "Record of a Shriveled Datum",
-      content: "No bytes, no problem. Just insert a document, in MongoDB",
+      title,
+      content,
+      password,
     };
+
     const result = await posts.insertOne(doc);
     console.log(`A document was inserted with the _id: ${result.insertedId}`);
   } catch (error) {
