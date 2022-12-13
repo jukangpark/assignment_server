@@ -1,17 +1,16 @@
 import express from "express";
-import {
-  createPost,
-  deletePost,
-  editPost,
-  postAll,
-  viewPost,
-} from "../controller/postController";
+
+import createPost from "../controller/posts/createPost";
+import postAll from "../controller/posts/postAll";
+import updatePost from "../controller/posts/updatePost";
+import viewPost from "../controller/posts/viewPost";
+import { verifyToken } from "../middleware/authorization";
+import deletePost from "../controller/posts/deletePost";
 
 const postRouter = express.Router();
 
-postRouter.route("/:name").get(postAll).post(createPost); // 전체 조회
-postRouter.route("/:id/:name").get(viewPost);
-postRouter.route("/:id/:name").put(editPost); // 게시물 수정
-postRouter.route("/:id/:name").delete(deletePost); // 게시물 삭제
+postRouter.route("/:name").get(postAll).post(verifyToken, createPost); // 전체 조회
+postRouter.route("/:id/:name").get(viewPost).put(updatePost);
+postRouter.route("/:id/delete/:name").post(deletePost); // 게시물 삭제
 
 export default postRouter;
