@@ -11,13 +11,29 @@ const deletePost = async (req: Request, res: Response) => {
 
   try {
     const db = client.db(name);
+    const users = db.collection("users");
+    const user = await users.findOne({
+      _id: new ObjectId(res.locals.user.user_id),
+    });
+
     const posts = db.collection("posts");
     const post = await posts.findOne({ _id: new ObjectId(id) });
-    if (post.password === password) {
-      await posts.deleteOne({ _id: post._id });
-      return res.json({ message: "게시물을 삭제하였습니다." });
+
+    if (post.author.id === user.id) {
+      if (post.password === password) {
+        await posts.deleteOne({ _id: post._id });
+        return res.json({ result: true, message: "게시물을 삭제하였습니다." });
+      } else {
+        return res.json({
+          result: false,
+          message: "비밀번호가 일치하지 않습니다.",
+        });
+      }
     } else {
-      return res.json({ message: "비밀번호가 일치하지 않습니다." });
+      return res.json({
+        result: false,
+        message: "해당 게시물의 소유자가 아닙니다.",
+      });
     }
   } catch (err) {
     console.log(err);

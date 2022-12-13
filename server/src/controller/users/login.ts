@@ -9,18 +9,18 @@ const login = async (req: Request, res: Response) => {
   const { name } = req.params;
   const { id, password } = req.body;
 
-  console.log(id, password);
+  // console.log(id, password);
 
   try {
     const db = client.db(name);
     const users = db.collection("users");
 
     const user = await users.findOne({ id });
+
     if (user) {
       const isCorrectPassword = await bcrypt.compare(password, user.password);
 
       if (isCorrectPassword) {
-        console.log("패스 워드 일치");
         const token = jwt.sign(
           {
             user_id: user._id,
