@@ -24,6 +24,7 @@ const login = async (req: Request, res: Response) => {
         const token = jwt.sign(
           {
             user_id: user._id,
+            id,
           },
           process.env.SECRET_KEY || "secret key",
           {
@@ -35,6 +36,8 @@ const login = async (req: Request, res: Response) => {
           .status(200)
           .send({ result: true, message: "로그인 완료", token })
           .end();
+      } else {
+        return res.json({ message: "비밀번호가 일치하지 않습니다." });
       }
     } else {
       return res.json({ message: "해당 유저가 존재하지 않습니다" });
@@ -42,8 +45,6 @@ const login = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
   }
-
-  return res.status(201).json({ message: "로그인 완료" });
 };
 
 export default login;

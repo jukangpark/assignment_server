@@ -12,14 +12,20 @@ const deletePost = async (req: Request, res: Response) => {
   try {
     const db = client.db(name);
     const users = db.collection("users");
-    const user = await users.findOne({
-      _id: new ObjectId(res.locals.user.user_id),
-    });
+    const user = await users.findOneAndUpdate(
+      {
+        _id: new ObjectId(res.locals.user.user_id),
+      },
+      {
+        // $inc: { posts: -1 },
+        $pull: { postList: { _id: new ObjectId(id) } },
+      }
+    );
 
     const posts = db.collection("posts");
     const post = await posts.findOne({ _id: new ObjectId(id) });
 
-    if (post.author.id === user.id) {
+    if (post.author === user.id) {
       if (post.password === password) {
         await posts.deleteOne({ _id: post._id });
         return res.json({ result: true, message: "게시물을 삭제하였습니다." });

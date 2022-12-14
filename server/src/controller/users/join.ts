@@ -18,12 +18,18 @@ export const join = async (req: Request, res: Response) => {
         .status(400)
         .json({ message: "해당 이메일을 가진 유저가 존재" });
     } else {
-      const doc = {
+      const newUser = {
         id,
         password: await bcrypt.hash(password, 5),
+        // posts: 0,
+        posts: [],
+        comments: 0,
+        follower: 0,
+        following: 0,
+        profile_img: 0,
       };
 
-      const result = await users.insertOne(doc);
+      const result = await users.insertOne(newUser);
       console.log(result);
       return res.status(201).json({ message: "회원가입 완료" });
     }

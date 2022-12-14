@@ -20,8 +20,7 @@ const updatePost = async (req: Request, res: Response) => {
     if (foundedPost.password === password) {
       await posts.updateOne(
         { _id: new ObjectId(id) },
-        { $set: { title, content } },
-        { upsert: true }
+        { $set: { title, content } }
       );
 
       return res.json({ message: "업데이트 되었습니다." });
