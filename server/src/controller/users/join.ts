@@ -13,15 +13,16 @@ export const join = async (req: Request, res: Response) => {
 
     const isExist = await users.findOne({ id });
 
+    const hashedPassword = await bcrypt.hash(password, 5);
+
     if (isExist) {
       return res
         .status(400)
-        .json({ message: "해당 이메일을 가진 유저가 존재" });
+        .json({ message: "해당 아이디를 가진 유저가 존재" });
     } else {
       const newUser = {
         id,
-        password: await bcrypt.hash(password, 5),
-        // posts: 0,
+        password: hashedPassword,
         posts: [],
         comments: 0,
         follower: 0,
