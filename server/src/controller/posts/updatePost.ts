@@ -13,19 +13,21 @@ const updatePost = async (req: Request, res: Response) => {
     const db = client.db(name);
     const posts = db.collection("posts");
 
-    const foundedPost = await posts.findOne({ _id: new ObjectId(id) });
+    const post = await posts.findOne({ _id: new ObjectId(id) });
 
-    console.log(foundedPost.password, password);
+    if (post.author === res.locals.user.id) {
+      if (post.password === password) {
+        await posts.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: { title, content } }
+        );
 
-    if (foundedPost.password === password) {
-      await posts.updateOne(
-        { _id: new ObjectId(id) },
-        { $set: { title, content } }
-      );
-
-      return res.json({ message: "업데이트 되었습니다." });
+        return res.json({ message: "업데이트 되었습니다." });
+      } else {
+        return res.json({ message: "비밀번호가 일치하지 않습니다." });
+      }
     } else {
-      return res.json({ message: "비밀번호가 일치하지 않습니다." });
+      return res.json({ message: "해당 게시물에 권한이 없습니다." });
     }
   } catch (err) {
     console.log(err);

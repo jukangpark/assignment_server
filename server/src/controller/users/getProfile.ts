@@ -7,20 +7,15 @@ const getProfile = async (req: Request, res: Response) => {
 
   const db = client.db(name);
   const users = db.collection("users");
+  const followers = db.collection("followers");
 
   try {
     const user = await users.findOne({ id });
-    const { posts, comments, follower, following, profile_img, postList } =
-      user;
+
     if (user) {
+      delete user.password;
       return res.status(200).json({
-        id: user.id,
-        posts,
-        comments,
-        follower,
-        following,
-        profile_img,
-        // postList,
+        ...user,
       });
     } else {
       return res.json({ message: "해당 유저가 db 에 존재하지 않습니다." });

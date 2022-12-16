@@ -10,7 +10,7 @@ import deletePost from "../controller/posts/deletePost";
 const postRouter = express.Router();
 
 postRouter.route("/:name").get(postAll).post(verifyToken, createPost); // 전체 조회
-postRouter.route("/:id/:name").get(viewPost).put(updatePost);
+postRouter.route("/:id/:name").get(viewPost).put(verifyToken, updatePost);
 postRouter.route("/:id/delete/:name").post(verifyToken, deletePost); // 게시물 삭제
 
 export default postRouter;

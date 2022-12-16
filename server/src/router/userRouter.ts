@@ -9,6 +9,7 @@ import login from "../controller/users/login";
 import getMyProfile from "../controller/users/getMyProfile";
 import { verifyToken } from "../middleware/authorization";
 import getProfile from "../controller/users/getProfile";
+import follow from "../controller/users/follow";
 
 const userRouter = express.Router();
 
@@ -18,5 +19,6 @@ userRouter.route("/myProfile/:name").get(verifyToken, getMyProfile); // 나의 �
 userRouter.route("/:id/:name").get(verifyToken, getProfile); // 나의 프로필 조회
 userRouter.route("/:id/:name").put(updateProfile); // 유저 프로필 업데이트
 userRouter.route("/:id/:name").delete(deleteProfile); // 유저 프로필 삭제
+userRouter.route("/:id/follow/:name").post(verifyToken, follow); // 해당 유저 팔로우
 
 export default userRouter;
