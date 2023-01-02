@@ -7,7 +7,7 @@ const getProfile = async (req: Request, res: Response) => {
 
   const db = client.db(name);
   const users = db.collection("users");
-  const followers = db.collection("followers");
+  // const followers = db.collection("followers");
 
   try {
     const user = await users.findOne({ id });
