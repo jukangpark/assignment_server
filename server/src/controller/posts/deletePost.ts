@@ -23,7 +23,7 @@ const deletePost = async (req: Request, res: Response) => {
         },
         {
           // $inc: { posts: -1 },
-          $pull: { postList: { _id: new ObjectId(id) } },
+          $pull: { posts: { _id: new ObjectId(id) } },
         }
       );
 
