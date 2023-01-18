@@ -8,6 +8,7 @@ import express, { NextFunction, Request, Response } from "express";
 
 import userRouter from "./router/userRouter";
 import postRouter from "./router/postRouter";
+import dashboardRouter from "./router/dashboardRouter";
 
 process.on("uncaughtException", (err) => {
   console.log(err);
@@ -34,6 +35,7 @@ const PORT = process.env.PORT || 9000;
 
 app.use("/user", userRouter);
 app.use("/posts", postRouter);
+app.use("/dashboard", dashboardRouter);
 
 app.get("/test", (req, res) => {
   return res.json({ message: "연결완료" });
