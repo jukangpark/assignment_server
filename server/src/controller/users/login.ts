@@ -8,8 +8,8 @@ import jwt from "jsonwebtoken";
 const login = async (req: Request, res: Response) => {
   const { name } = req.params;
   const { id, password } = req.body;
-
-  // console.log(id, password);
+  console.log(req.body);
+  console.log(id, password);
 
   try {
     const db = client.db(name);
